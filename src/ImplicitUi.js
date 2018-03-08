@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function ImplicitUi({components, ui}) {
+  return renderListOfElements(components, ui);
+}
+
+ImplicitUi.propTypes = {ui: PropTypes.array.isRequired};
+
+function renderListOfElements(components, ui) {
   if (!components) return null;
   if (!ui) return null;
 
@@ -9,15 +15,16 @@ export default function ImplicitUi({components, ui}) {
     ui.map((element, index) => {
       const UiElement = getElement(components, element);
       const props = getElementProps(element);
+      const children = getElementChildren(element);
 
       if (!UiElement) return null;
+      if (!children) return <UiElement key={index} {...props} />;
+      const childElements = renderListOfElements(components, children);
 
-      return <UiElement key={index} {...props} />;
+      return <UiElement key={index} {...props}>{childElements}</UiElement>;
     })
   );
 }
-
-ImplicitUi.propTypes = {ui: PropTypes.array.isRequired};
 
 function getElement(components, element) {
   if (typeof element === 'string') return components[element];
@@ -33,48 +40,9 @@ function getElementProps(element) {
   return element.props;
 }
 
-/*
+function getElementChildren(element) {
+  if (typeof element === 'string') return undefined;
+  if (!element.children) return undefined;
 
-const ONLY_ONE_ELEMENT = 1;
-const FIRST_ELEMENT = 0;
-
-function ImplicitElement({element: {name, childElements, props}, params}) {
-  const ElementComp = getComponentByName(name);
-  const parsedProps = parseProps(props);
-
-  if (!childElements) return <ElementComp {...parsedProps} {...params} />;
-
-  let childComponents = childElements.map(
-    (childComp, index) =>
-      <ImplicitElement key={index} element={childComp} params={params} />
-  );
-
-  if (childComponents.length === ONLY_ONE_ELEMENT) childComponents = childComponents[FIRST_ELEMENT];
-
-  return <ElementComp {...parsedProps} {...params}>{childComponents}</ElementComp>;
+  return element.children;
 }
-
-ImplicitElement.propTypes = {
-  element: PropTypes.object.isRequired,
-  params: PropTypes.object
-};
-
-ImplicitElement.defaultProps = {params: {}};
-
-function getComponentByName(name) {
-  return componentList[name];
-}
-
-function parseProps(props) {
-  if (!props) return props;
-
-  const newProps = {...props};
-
-  for (const key in newProps) {
-    const obj = newProps[key];
-
-    if (obj && Object.prototype.hasOwnProperty.call(obj, 'name')) newProps[key] = getComponentByName(obj.name);
-  }
-
-  return newProps;
-} */

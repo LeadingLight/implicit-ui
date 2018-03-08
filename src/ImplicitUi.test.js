@@ -57,4 +57,23 @@ describe('ImplicitUi', () => {
 
     expect(tree).toMatchSnapshot();
   });
+
+  it('should render children prop as children to component', () => {
+    const uiConfig = [
+      {
+        name: 'Container',
+        props: {text: 'MyHeader'},
+        children: [
+          'MyTitle',
+          'MyTitle'
+        ]
+      }
+    ];
+
+    const tree = renderer
+      .create(<ImplicitUi components={compCollection} ui={uiConfig} />)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
 });

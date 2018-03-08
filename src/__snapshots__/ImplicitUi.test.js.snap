@@ -6,6 +6,22 @@ exports[`ImplicitUi should pass prop property as props to component 1`] = `
 </p>
 `;
 
+exports[`ImplicitUi should render children prop as children to component 1`] = `
+<div>
+  <h3>
+    MyHeader
+  </h3>
+  <div>
+    <h1>
+      My Title
+    </h1>
+    <h1>
+      My Title
+    </h1>
+  </div>
+</div>
+`;
+
 exports[`ImplicitUi should render list of components 1`] = `
 Array [
   <h1>
