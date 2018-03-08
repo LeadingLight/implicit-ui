@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImplicitUi should pass prop property as props to component 1`] = `
+<p>
+  This is my text
+</p>
+`;
+
+exports[`ImplicitUi should render list of components 1`] = `
+Array [
+  <h1>
+    My Title
+  </h1>,
+  <h1>
+    My Title
+  </h1>,
+]
+`;
+
+exports[`ImplicitUi should use name prop as component name 1`] = `
+<h1>
+  My Title
+</h1>
+`;
+
+exports[`ImplicitUi should use strings as component name 1`] = `
+<h1>
+  My Title
+</h1>
+`;
