@@ -67,3 +67,59 @@ ReactDOM.render(
 <p>This is secound paragraph</p>
 
 ```
+
+### Children in config
+Rendering a tree of components by setting children in configuration to components
+```javascript
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ImplicitUi from 'implicit-ui';
+
+export function Container({children, text}) {
+  return (
+    <div>
+      <h3>{text}</h3>
+      <div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function MyParagraph({text}) {
+  return <p>{text}</p>
+}
+
+const compDictionary = {Container, MyParagraph};
+const uiConf = [
+  {
+    name: 'Container',
+    props: {text: 'Header for my paragraphs'},
+    children: [
+      {
+        name: 'MyParagraph',
+        props: {text: 'This is first paragraph'}
+      },
+      {
+        name: 'MyParagraph',
+        props: {text: 'This is secound paragraph'}
+      }
+    ]
+  }
+];
+
+ReactDOM.render(
+  <ImplicitUi components={compDictionary} ui={uiConf} />,
+  document.getElementById('root'));
+
+// will render -->
+<div>
+  <h3>Header for my paragraphs</h3>
+  <div>
+    <p>This is first paragraph</p>
+    <p>This is secound paragraph</p>
+  </div>
+</div>
+
+```
