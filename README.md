@@ -54,7 +54,7 @@ const uiConf = [
   },
   {
     name: 'MyParagraph',
-    props: {text: 'This is secound paragraph'}
+    props: {text: 'This is second paragraph'}
   }
 ];
 
@@ -64,7 +64,7 @@ ReactDOM.render(
 
 // will render -->
 <p>This is first paragraph</p>
-<p>This is secound paragraph</p>
+<p>This is second paragraph</p>
 
 ```
 
@@ -103,7 +103,7 @@ const uiConf = [
       },
       {
         name: 'MyParagraph',
-        props: {text: 'This is secound paragraph'}
+        props: {text: 'This is second paragraph'}
       }
     ]
   }
@@ -118,8 +118,60 @@ ReactDOM.render(
   <h3>Header for my paragraphs</h3>
   <div>
     <p>This is first paragraph</p>
-    <p>This is secound paragraph</p>
+    <p>This is second paragraph</p>
   </div>
+</div>
+
+```
+
+### Components in props
+Making it possible to send in an component as a prop and having it render from components list.
+
+
+```javascript
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ImplicitUi from 'implicit-ui';
+
+export function PropsContainer({Comp1, Comp2}) {
+  return (
+    <div>
+      <Comp1 />
+      <Comp2 />
+    </div>
+  );
+}
+
+function MyParagraph({text}) {
+  return <p>{text}</p>
+}
+
+const compDictionary = {PropsContainer, MyParagraph};
+const uiConf = [
+  {
+    name: 'PropsContainer',
+    props: {
+      Comp1: {
+        name: 'MyParagraph',
+        props: {text: 'This is first paragraph'}
+      },
+      Comp2: {
+        name: 'MyParagraph',
+        props: {text: 'This is second paragraph'}
+      }
+    }
+  }
+];
+
+ReactDOM.render(
+  <ImplicitUi components={compDictionary} ui={uiConf} />,
+  document.getElementById('root'));
+
+// will render -->
+<div>
+  <p>This is first paragraph</p>
+  <p>This is second paragraph</p>
 </div>
 
 ```
