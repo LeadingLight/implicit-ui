@@ -34,3 +34,22 @@ Container.defaultProps = {
   children: <span>Empty Container</span>,
   text: 'Container Header'
 };
+
+export function PropsContainer({Comp1, Comp2}) {
+  return (
+    <div>
+      <Comp1 />
+      <Comp2 />
+    </div>
+  );
+}
+
+PropsContainer.propTypes = {
+  Comp1: PropTypes.func,
+  Comp2: PropTypes.func
+};
+
+PropsContainer.defaultProps = {
+  Comp1: <span>Default1</span>,
+  Comp2: <span>Default2</span>
+};

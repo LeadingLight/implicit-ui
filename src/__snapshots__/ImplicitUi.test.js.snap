@@ -33,6 +33,49 @@ Array [
 ]
 `;
 
+exports[`ImplicitUi should render prop components with their own children 1`] = `
+<div>
+  <div>
+    <h3>
+      Header 1
+    </h3>
+    <div>
+      <p>
+        Paragraph 1
+      </p>
+      <p>
+        Paragraph 2
+      </p>
+    </div>
+  </div>
+  <p>
+    Paragraph 3
+  </p>
+</div>
+`;
+
+exports[`ImplicitUi should render prop components with their own props 1`] = `
+<div>
+  <p>
+    Paragraph 1
+  </p>
+  <p>
+    Paragraph 2
+  </p>
+</div>
+`;
+
+exports[`ImplicitUi should render props that is object and has a name in component list as component 1`] = `
+<div>
+  <h1>
+    My Title
+  </h1>
+  <h1>
+    My Title
+  </h1>
+</div>
+`;
+
 exports[`ImplicitUi should use name prop as component name 1`] = `
 <h1>
   My Title
