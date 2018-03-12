@@ -1,3 +1,3 @@
-import ImplicitUi from './src';
+import ImplicitUi from './src/ImplicitUi';
 
 export default ImplicitUi;
