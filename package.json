@@ -14,7 +14,7 @@
     "ui",
     "react"
   ],
-  "author": "Pontus Rulander",
+  "author": "Pontus Rulander <pontus@iruhl.org> (https://github.com/LeadingLight)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/LeadingLight/implicit-ui/issues"
