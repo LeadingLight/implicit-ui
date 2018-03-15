@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Simple components for rendering a react ui from json config object",
   "main": "index.js",
+  "module": "index.js",
   "scripts": {
     "test": "jest --watch"
   },
