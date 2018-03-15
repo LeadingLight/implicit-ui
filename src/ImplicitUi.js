@@ -11,8 +11,15 @@ ImplicitUi.propTypes = {
 };
 
 function renderListOfElements(components, ui) {
+  const NESTING_LEVEL = 2;
+
   if (!components) return null;
   if (!ui) return null;
+  if (typeof ui === 'object' && !Array.isArray(ui)) {
+    console.error('Expected a list of Components, but recived an Object: ', JSON.stringify(ui, null, NESTING_LEVEL));
+
+    return null;
+  }
 
   return (
     ui.map((element, index) => {
