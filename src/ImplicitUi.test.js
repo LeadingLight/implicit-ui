@@ -6,6 +6,15 @@ import * as compCollection from './components/TestComponents';
 
 
 describe('ImplicitUi', () => {
+  it('should return null if no ui', () => {
+    const uiConfig = undefined;
+
+    const tree = renderer
+      .create(<ImplicitUi components={compCollection} ui={uiConfig} />)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
   it('should use strings as component name', () => {
     const uiConfig = [
       'MyTitle'
@@ -145,6 +154,20 @@ describe('ImplicitUi', () => {
         }
       }
     ];
+
+    const tree = renderer
+      .create(<ImplicitUi components={compCollection} ui={uiConfig} />)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should render from children if object', () => {
+    const uiConfig = {
+      children: [
+        {name: 'MyTitle'}
+      ]
+    };
 
     const tree = renderer
       .create(<ImplicitUi components={compCollection} ui={uiConfig} />)

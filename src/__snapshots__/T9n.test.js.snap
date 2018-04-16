@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`T9n should override tagname if tag prop is sent in 1`] = `
+<span>
+  test.level2.override$differentTag
+</span>
+`;
+
+exports[`T9n should use fallback al the way to the bare tag 1`] = `
+Array [
+  <span>
+    Translated Simple Tag
+  </span>,
+  <span>
+    Translated Simple Tag
+  </span>,
+]
+`;
+
+exports[`T9n should use fallback to lower context if full context does not exist 1`] = `
+Array [
+  <span>
+    Translated Simple Tag
+  </span>,
+  <span>
+    Translated Simple Tag level 2
+  </span>,
+]
+`;
+
+exports[`T9n should use full context and tagname as default if no translation exist 1`] = `
+Array [
+  <span>
+    test$simpleTag
+  </span>,
+  <span>
+    test.level2$simpleTag
+  </span>,
+]
+`;
+
+exports[`T9n should use full contextTag if exists 1`] = `
+Array [
+  <span>
+    Translated Simple Tag
+  </span>,
+  <span>
+    Translated Simple Tag level 2
+  </span>,
+]
+`;

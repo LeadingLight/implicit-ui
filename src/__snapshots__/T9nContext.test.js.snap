@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`T9nContext should build context as a tree structure 1`] = `
+Array [
+  <span>
+    level1
+  </span>,
+  <div>
+    <span>
+      level1.level2
+    </span>
+    <div>
+      <span>
+        level1.level2.level3
+      </span>
+    </div>
+  </div>,
+]
+`;
+
+exports[`T9nContext should send in context as prop to  1`] = `
+<span>
+  test
+</span>
+`;

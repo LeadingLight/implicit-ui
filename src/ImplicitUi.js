@@ -1,37 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ImplicitUi({components, ui}) {
-  return renderListOfElements(components, ui);
+import {T9nProvider} from './T9n';
+
+export default function ImplicitUi({components, ui, t9n}) {
+  return <T9nProvider value={t9n}>{renderUiElements(components, ui, getBaseContext(ui))}</T9nProvider>;
 }
 
 ImplicitUi.propTypes = {
   components: PropTypes.object.isRequired,
-  ui: PropTypes.array.isRequired
+  t9n: PropTypes.object,
+  ui: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ])
 };
 
-function renderListOfElements(components, ui) {
-  const NESTING_LEVEL = 2;
+ImplicitUi.defaultProps = {
+  t9n: {},
+  ui: []
+};
+
+
+function renderUiElements(components, uiProp, t9nContext) {
+  const ui = prepareUiObject(uiProp);
 
   if (!components) return null;
   if (!ui) return null;
-  if (typeof ui === 'object' && !Array.isArray(ui)) {
-    console.error('Expected a list of Components, but recived an Object: ', JSON.stringify(ui, null, NESTING_LEVEL));
-
-    return null;
-  }
 
   return (
     ui.map((element, index) => {
       const UiElement = getElement(components, element);
-      const props = getElementProps(components, element);
+      const context = getElementContext(element, t9nContext);
+      const props = getElementProps(components, element, context);
       const children = getElementChildren(element);
 
       if (!UiElement) return null;
-      if (!children) return <UiElement key={index} {...props} />;
-      const childElements = renderListOfElements(components, children);
+      if (!children) return <UiElement key={index} {...props} t9nContext={context} />;
+      const childElements = renderUiElements(components, children, context);
 
-      return <UiElement key={index} {...props}>{childElements}</UiElement>;
+      return <UiElement key={index} {...props} t9nContext={context}>{childElements}</UiElement>;
     })
   );
 }
@@ -41,6 +49,38 @@ function getElement(components, element) {
   if (typeof element === 'object') return components[element.name];
 
   return undefined;
+}
+
+function prepareUiObject(ui) {
+  const TAB_INDENTATION = 2;
+
+  const errorMessage = `Expected a Component or list of Components, but recived: ${JSON.stringify(ui, null, TAB_INDENTATION)}`;
+
+  if (!ui) return ui;
+  if (Array.isArray(ui)) return ui;
+  if (typeof ui !== 'object') return logErrorAndReturn(errorMessage, null);
+  if (ui.name) return [ui];
+  if (ui.children && Array.isArray(ui.children)) return ui.children;
+
+  return logErrorAndReturn(errorMessage, null);
+}
+
+function logErrorAndReturn(message, returnValue) {
+  console.error(message);
+
+  return returnValue;
+}
+
+function getBaseContext(ui) {
+  if (typeof ui === 'object' && ui.t9nContext) return ui.t9nContext;
+
+  return '';
+}
+
+function getElementContext(element, t9nContext) {
+  if (element.t9nContext) return `${t9nContext}.${element.t9nContext}`;
+
+  return t9nContext;
 }
 
 function getElementProps(components, element) {
@@ -79,7 +119,7 @@ function createPropsWrapper(components, Component, specObject) {
   return function PropertyWrapper() {
     if (!specObject.props && !specObject.children) return <Component />;
     if (!specObject.children) return <Component {...specObject.props} />;
-    const childElements = renderListOfElements(components, specObject.children);
+    const childElements = renderUiElements(components, specObject.children);
 
     return <Component {...specObject.props}>{childElements}</Component>;
   };

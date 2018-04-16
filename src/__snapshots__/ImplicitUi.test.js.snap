@@ -22,6 +22,12 @@ exports[`ImplicitUi should render children prop as children to component 1`] = `
 </div>
 `;
 
+exports[`ImplicitUi should render from children if object 1`] = `
+<h1>
+  My Title
+</h1>
+`;
+
 exports[`ImplicitUi should render list of components 1`] = `
 Array [
   <h1>
@@ -75,6 +81,8 @@ exports[`ImplicitUi should render props that is object and has a name in compone
   </h1>
 </div>
 `;
+
+exports[`ImplicitUi should return null if no ui 1`] = `null`;
 
 exports[`ImplicitUi should use name prop as component name 1`] = `
 <h1>
