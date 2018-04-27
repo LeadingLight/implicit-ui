@@ -45,4 +45,30 @@ describe('T9nContext', () => {
 
     expect(tree).toMatchSnapshot();
   });
+
+  it('transfer context to prop elements', () => {
+    const uiConfig = {
+      t9nContext: 'base',
+      children: [
+        'ShowContext',
+        {
+          t9nContext: 'level2',
+          name: 'PropComponents',
+          props: {
+            FirstComp: {
+              t9nContext: 'level3',
+              name: 'ShowContext'
+            },
+            SecondComp: {name: 'ShowContext'}
+          }
+        }
+      ]
+    };
+
+    const tree = renderer
+      .create(<ImplicitUi components={compCollection} ui={uiConfig} />)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
 });

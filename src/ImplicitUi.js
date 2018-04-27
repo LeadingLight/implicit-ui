@@ -83,16 +83,16 @@ function getElementContext(element, t9nContext) {
   return t9nContext;
 }
 
-function getElementProps(components, element) {
+function getElementProps(components, element, t9nContext) {
   if (typeof element === 'string') return {};
   if (!element.props) return {};
 
-  const replacedProps = scanPropsForComponentsAndReplace(components, element.props);
+  const replacedProps = scanPropsForComponentsAndReplace(components, element.props, t9nContext);
 
   return {...element.props, ...replacedProps};
 }
 
-function scanPropsForComponentsAndReplace(components, propObjects) {
+function scanPropsForComponentsAndReplace(components, propObjects, t9nContext) {
   const keys = Object.keys(propObjects);
   const componentProps = {};
 
@@ -107,21 +107,23 @@ function scanPropsForComponentsAndReplace(components, propObjects) {
     let component = getElement(components, propObject);
 
     if (!component) return;
-    if (propObject.props || propObject.children) component = createPropsWrapper(components, component, propObject);
 
+    component = createPropsWrapper({components, Component: component, specObject: propObject, t9nContext});
     componentProps[key] = component;
   });
 
   return componentProps;
 }
 
-function createPropsWrapper(components, Component, specObject) {
-  return function PropertyWrapper() {
-    if (!specObject.props && !specObject.children) return <Component />;
-    if (!specObject.children) return <Component {...specObject.props} />;
-    const childElements = renderUiElements(components, specObject.children);
+function createPropsWrapper({components, Component, specObject, t9nContext}) {
+  const context = getElementContext(specObject, t9nContext);
 
-    return <Component {...specObject.props}>{childElements}</Component>;
+  return function PropertyWrapper() {
+    if (!specObject.props && !specObject.children) return <Component t9nContext={context} />;
+    if (!specObject.children) return <Component {...specObject.props} t9nContext={context} />;
+    const childElements = renderUiElements(components, specObject.children, context);
+
+    return <Component {...specObject.props} t9nContext={context}>{childElements}</Component>;
   };
 }
 

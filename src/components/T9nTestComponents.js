@@ -33,3 +33,17 @@ ShowContext.propTypes = {
 ShowContext.defaultProps = {children: undefined};
 
 export const SimpleTag = withT9n(({tagName}) => <span>{tagName}</span>, {tagName: '$simpleTag'});
+
+export function PropComponents({FirstComp, SecondComp}) {
+  return (
+    <div>
+      <FirstComp />
+      <SecondComp />
+    </div>
+  );
+}
+
+PropComponents.propTypes = {
+  FirstComp: PropTypes.func.isRequired,
+  SecondComp: PropTypes.func.isRequired
+};

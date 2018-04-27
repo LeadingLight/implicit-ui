@@ -23,3 +23,19 @@ exports[`T9nContext should send in context as prop to  1`] = `
   test
 </span>
 `;
+
+exports[`T9nContext transfer context to prop elements 1`] = `
+Array [
+  <span>
+    base
+  </span>,
+  <div>
+    <span>
+      base.level2.level3
+    </span>
+    <span>
+      base.level2
+    </span>
+  </div>,
+]
+`;
