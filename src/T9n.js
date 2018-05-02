@@ -24,7 +24,7 @@ function translateProps(tags, props, translations) {
   tagKeys.forEach((tagKey) => {
     const fullContextTag = getFullContextTag(tags[tagKey], props[tagKey], t9nContext); // eslint-disable-line react/destructuring-assignment
 
-    translatedTags[tagKey] = findTag(fullContextTag, translations, translations ? fullContextTag : '');
+    translatedTags[tagKey] = findTag(fullContextTag, translations, fullContextTag);
   });
 
   return translatedTags;
@@ -38,6 +38,7 @@ function getFullContextTag(tag, propsTag, context) {
 }
 
 function findTag(tag, translations, defaultTag) {
+  if (!translations) return '';
   const translatedTag = translations[tag];
 
   if (translatedTag) return translatedTag;
