@@ -17,7 +17,7 @@ ImplicitUi.propTypes = {
 };
 
 ImplicitUi.defaultProps = {
-  t9n: {},
+  t9n: null,
   ui: []
 };
 
