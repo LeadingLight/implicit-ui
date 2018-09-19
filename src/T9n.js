@@ -14,6 +14,28 @@ export function withT9n(Component, tags) {
   );
 }
 
+export function withT9nFind(Component) {
+  return (props) => {
+    const {t9nContext, showDefaultTag} = props; // eslint-disable-line react/prop-types
+
+    return (
+      <T9nContext>
+        {(translations) => {
+          const findAndtranslateTag = (tag, specifiedDefaultTag) => {
+            const fullContextTag = getFullContextTag(tag, false, t9nContext); // eslint-disable-line react/destructuring-assignment
+            const usedDefaultTag = showDefaultTag ? fullContextTag : '';
+            const defaultTag = specifiedDefaultTag ? specifiedDefaultTag : usedDefaultTag;
+
+            return findTag(fullContextTag, translations, defaultTag);
+          };
+
+          return <Component {...props} findTag={findAndtranslateTag} />;
+        }}
+      </T9nContext>
+    );
+  };
+}
+
 export const T9nProvider = T9nContext.Provider;
 
 function translateProps(tags, props, translations) {

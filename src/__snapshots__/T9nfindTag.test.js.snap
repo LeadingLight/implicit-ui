@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`T9n findTag Coponents should lookup correct tag in component 1`] = `
+<span>
+  Translated FindTag
+</span>
+`;
+
+exports[`T9n findTag Coponents should use defaultTag if sett in function 1`] = `
+<span>
+  defaultTag
+</span>
+`;
+
+exports[`T9n findTag Coponents should use empty string if no default provided from component 1`] = `
+<span>
+  
+</span>
+`;
+
+exports[`T9n findTag Coponents should use fullContextTag as default if showDefaultTag is set and no default provided from component 1`] = `
+<span>
+  test$simpleTag
+</span>
+`;

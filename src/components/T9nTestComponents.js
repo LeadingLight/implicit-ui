@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {withT9n} from '../T9n';
+import {withT9n, withT9nFind} from '../T9n';
 
 export function Paragraph({text}) {
   return <p>{text}</p>;
@@ -47,3 +47,6 @@ PropComponents.propTypes = {
   FirstComp: PropTypes.func.isRequired,
   SecondComp: PropTypes.func.isRequired
 };
+
+export const SimpleFindTag = withT9nFind(({findTag}) => <span>{findTag('$simpleTag', 'defaultTag')}</span>, {tagName: '$simpleTag'});
+export const NoDefaultFindTag = withT9nFind(({findTag}) => <span>{findTag('$simpleTag')}</span>, {tagName: '$simpleTag'});
