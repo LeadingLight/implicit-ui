@@ -18,6 +18,14 @@ const uiConfig = {
 describe('T9n', () => {
   it('should use full context and tagname as default if no translation exist', () => {
     const tree = renderer
+      .create(<ImplicitUi components={compCollection} showDefaultTag ui={uiConfig} />)
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should use empty string if showDefaultTag is not set', () => {
+    const tree = renderer
       .create(<ImplicitUi components={compCollection} ui={uiConfig} />)
       .toJSON();
 
@@ -70,7 +78,7 @@ describe('T9n', () => {
     };
     const t9n = {$simpleTag: 'Translated Simple Tag'};
     const tree = renderer
-      .create(<ImplicitUi components={compCollection} t9n={t9n} ui={uiConfigOveride} />)
+      .create(<ImplicitUi components={compCollection} showDefaultTag t9n={t9n} ui={uiConfigOveride} />)
       .toJSON();
 
     expect(tree).toMatchSnapshot();

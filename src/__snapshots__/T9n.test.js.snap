@@ -6,6 +6,17 @@ exports[`T9n should override tagname if tag prop is sent in 1`] = `
 </span>
 `;
 
+exports[`T9n should use empty string if showDefaultTag is not set 1`] = `
+Array [
+  <span>
+    
+  </span>,
+  <span>
+    
+  </span>,
+]
+`;
+
 exports[`T9n should use fallback al the way to the bare tag 1`] = `
 Array [
   <span>

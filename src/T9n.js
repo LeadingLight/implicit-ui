@@ -18,13 +18,14 @@ export const T9nProvider = T9nContext.Provider;
 
 function translateProps(tags, props, translations) {
   const translatedTags = {};
-  const {t9nContext} = props;
+  const {t9nContext, showDefaultTag} = props;
   const tagKeys = Object.keys(tags);
 
   tagKeys.forEach((tagKey) => {
     const fullContextTag = getFullContextTag(tags[tagKey], props[tagKey], t9nContext); // eslint-disable-line react/destructuring-assignment
+    const defaultTag = showDefaultTag ? fullContextTag : '';
 
-    translatedTags[tagKey] = findTag(fullContextTag, translations, fullContextTag);
+    translatedTags[tagKey] = findTag(fullContextTag, translations, defaultTag);
   });
 
   return translatedTags;
@@ -38,7 +39,7 @@ function getFullContextTag(tag, propsTag, context) {
 }
 
 function findTag(tag, translations, defaultTag) {
-  if (!translations) return '';
+  if (!translations) return defaultTag;
   const translatedTag = translations[tag];
 
   if (translatedTag) return translatedTag;
