@@ -48,5 +48,5 @@ PropComponents.propTypes = {
   SecondComp: PropTypes.func.isRequired
 };
 
-export const SimpleFindTag = withT9nFind(({findTag}) => <span>{findTag('$simpleTag', 'defaultTag')}</span>, {tagName: '$simpleTag'});
-export const NoDefaultFindTag = withT9nFind(({findTag}) => <span>{findTag('$simpleTag')}</span>, {tagName: '$simpleTag'});
+export const SimpleFindTag = withT9nFind(({findTag}) => <span>{findTag('$simpleTag', 'defaultTag')}</span>);
+export const NoDefaultFindTag = withT9nFind(({findTag}) => <span>{findTag('$simpleTag')}</span>);
