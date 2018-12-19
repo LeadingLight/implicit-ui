@@ -32,7 +32,8 @@
       "reservedFirst": true
     }],
     "iruhl/no-props-reassign": "error",
-    "react/boolean-prop-naming": ["error", {"rule": "^(enabled|disabled|visible|((is|has|show)[A-Z]([A-Za-z0-9]?)+))" }]
+    "react/boolean-prop-naming": ["error", {"rule": "^(enabled|disabled|visible|((is|has|show)[A-Z]([A-Za-z0-9]?)+))" }],
+    "react/prop-types": "off"
   },
   "plugins": [
     "babel",
