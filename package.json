@@ -6,7 +6,9 @@
   "module": "lib/index.js",
   "scripts": {
     "build": "babel -s inline -d lib src",
-    "test": "jest ./src --watch"
+    "test": "jest ./src --watch",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -23,13 +25,19 @@
   },
   "homepage": "https://github.com/LeadingLight/implicit-ui#readme",
   "devDependencies": {
+    "@storybook/addon-actions": "^4.1.2",
+    "@storybook/addon-links": "^4.1.2",
+    "@storybook/addons": "^4.1.2",
+    "@storybook/react": "^4.1.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.1",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.0.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.18.2",
@@ -39,7 +47,10 @@
     "eslint-plugin-iruhl": "^0.2.1",
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.2",
-    "react-test-renderer": "^16.2.0"
+    "node-sass": "^4.11.0",
+    "react-test-renderer": "^16.2.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1"
   },
   "dependencies": {
     "prop-types": "^15.6.1",
