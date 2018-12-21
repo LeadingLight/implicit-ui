@@ -2,10 +2,10 @@ import React from 'react';
 import {storiesOf} from '@storybook/react';
 
 
-const {Provider, Consumer} = React.createContext();
+const T9nContextContext = React.createContext();
 
-const T9nContextProvider = Provider;
-const T9nContextConsumer = Consumer;
+const T9nContextProvider = T9nContextContext.Provider;
+const T9nContextConsumer = T9nContextContext.Consumer;
 
 function T9nContext({contextName, children}) {
   return (
