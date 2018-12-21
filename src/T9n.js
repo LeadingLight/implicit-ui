@@ -1,5 +1,3 @@
-/* eslint-disable max-params */
-
 import React from 'react';
 
 const T9nTagsContext = React.createContext({});
@@ -27,10 +25,10 @@ export function T9nContext({contextName, children}) {
 export function withT9n(Component, tags) {
   return (props) => (
     <T9ntagsConsumer>
-      {(translations) => (
+      {({translations, showDefaultTag}) => (
         <T9nContextConsumer>
           {(t9nContext) => {
-            const t9nProps = translateProps(tags, t9nContext, props, translations);
+            const t9nProps = translateProps({tags, t9nContext, showDefaultTag, props, translations});
 
             return <Component {...props} {...t9nProps} />;
           }}
@@ -41,36 +39,31 @@ export function withT9n(Component, tags) {
 }
 
 export function withT9nFind(Component) {
-  return (props) => {
-    const {showDefaultTag} = props; // eslint-disable-line react/prop-types
+  return (props) => (
+    <T9ntagsConsumer>
+      {({translations, showDefaultTag}) => (
+        <T9nContextConsumer>
+          {(t9nContext) => {
+            const findAndtranslateTag = (tag, specifiedDefaultTag) => {
+              const fullContextTag = getFullContextTag(tag, false, t9nContext); // eslint-disable-line react/destructuring-assignment
+              const usedDefaultTag = showDefaultTag ? fullContextTag : '';
+              const defaultTag = specifiedDefaultTag ? specifiedDefaultTag : usedDefaultTag;
 
-    return (
-      <T9ntagsConsumer>
-        {(translations) => (
-          <T9nContextConsumer>
-            {(t9nContext) => {
-              const findAndtranslateTag = (tag, specifiedDefaultTag) => {
-                const fullContextTag = getFullContextTag(tag, false, t9nContext); // eslint-disable-line react/destructuring-assignment
-                const usedDefaultTag = showDefaultTag ? fullContextTag : '';
-                const defaultTag = specifiedDefaultTag ? specifiedDefaultTag : usedDefaultTag;
+              return findTag(fullContextTag, translations, defaultTag);
+            };
 
-                return findTag(fullContextTag, translations, defaultTag);
-              };
-
-              return <Component {...props} findTag={findAndtranslateTag} />;
-            }}
-          </T9nContextConsumer>
-        )}
-      </T9ntagsConsumer>
-    );
-  };
+            return <Component {...props} findTag={findAndtranslateTag} />;
+          }}
+        </T9nContextConsumer>
+      )}
+    </T9ntagsConsumer>
+  );
 }
 
 export const T9nTagsProvider = T9nTagsContext.Provider;
 
-function translateProps(tags, t9nContext, props, translations) {
+function translateProps({tags, t9nContext, showDefaultTag, props, translations}) {
   const translatedTags = {};
-  const {showDefaultTag} = props;
   const tagKeys = Object.keys(tags);
 
   tagKeys.forEach((tagKey) => {

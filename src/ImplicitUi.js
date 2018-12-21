@@ -1,4 +1,3 @@
-/* eslint-disable max-params */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,15 +5,9 @@ import {T9nTagsProvider, T9nContext} from './T9n';
 
 export default function ImplicitUi({components, ui, t9n, showDefaultTag}) {
   return (
-    <T9nTagsProvider value={t9n}>
-      <T9nContext contextName={getBaseContext(ui)}>{
-        renderUiElements(
-          components,
-          ui,
-          {
-            t9nContext: getBaseContext(ui),
-            showDefaultTag
-          })}
+    <T9nTagsProvider value={{translations: t9n, showDefaultTag}}>
+      <T9nContext contextName={getBaseContext(ui)}>
+        {renderUiElements(components, ui)}
       </T9nContext>
     </T9nTagsProvider>
   );
@@ -36,10 +29,7 @@ ImplicitUi.defaultProps = {
   ui: []
 };
 
-//
-
-
-function renderUiElements(components, uiProp, {showDefaultTag}) {
+function renderUiElements(components, uiProp) {
   const ui = prepareUiObject(uiProp);
 
   if (!components) return null;
@@ -48,32 +38,29 @@ function renderUiElements(components, uiProp, {showDefaultTag}) {
   return (
     ui.map((element, index) => {
       const UiElement = getElement(components, element);
-      const props = getElementProps(components, element, {showDefaultTag});
+      const props = getElementProps(components, element);
       const children = getElementChildren(element);
 
       if (!element.t9nContext || element.t9nContext === '') {
-        return renderElement(index, components, UiElement, props, children, showDefaultTag);
+        return renderElement({index, components, UiElement, props, children});
       }
 
       return (
         <T9nContext key={index} contextName={element.t9nContext}>
-          {renderElement(index, components, UiElement, props, children, showDefaultTag)}
+          {renderElement({index, components, UiElement, props, children})}
         </T9nContext>
       );
     })
   );
 }
 
-function renderElement(index, components, UiElement, props, children, showDefaultTag) {
+function renderElement({index, components, UiElement, props, children}) {
   if (!UiElement) return null;
-  if (!children) return <UiElement key={index} {...props} showDefaultTag={showDefaultTag} />;
-  const childElements = renderUiElements(components, children, {showDefaultTag});
+  if (!children) return <UiElement key={index} {...props} />;
+  const childElements = renderUiElements(components, children);
 
   return (
-    <UiElement
-      key={index}
-      {...props}
-      showDefaultTag={showDefaultTag}>
+    <UiElement key={index} {...props}>
       {childElements}
     </UiElement>
   );
@@ -112,16 +99,16 @@ function getBaseContext(ui) {
   return '';
 }
 
-function getElementProps(components, element, {showDefaultTag}) {
+function getElementProps(components, element) {
   if (typeof element === 'string') return {};
   if (!element.props) return {};
 
-  const replacedProps = scanPropsForComponentsAndReplace(components, element.props, {showDefaultTag});
+  const replacedProps = scanPropsForComponentsAndReplace(components, element.props);
 
   return {...element.props, ...replacedProps};
 }
 
-function scanPropsForComponentsAndReplace(components, propObjects, {showDefaultTag}) {
+function scanPropsForComponentsAndReplace(components, propObjects) {
   const keys = Object.keys(propObjects);
   const componentProps = {};
 
@@ -137,28 +124,22 @@ function scanPropsForComponentsAndReplace(components, propObjects, {showDefaultT
 
     if (!component) return;
 
-    component = createPropsWrapper({
-      components,
-      Component: component,
-      specObject: propObject,
-      showDefaultTag
-    });
+    component = createPropsWrapper({components, Component: component, specObject: propObject});
     componentProps[key] = component;
   });
 
   return componentProps;
 }
 
-function createPropsWrapper({components, Component, specObject, showDefaultTag}) {
+function createPropsWrapper({components, Component, specObject}) {
   return function PropertyWrapper() {
-    if (!specObject.props && !specObject.children) return <Component showDefaultTag={showDefaultTag} />;
-    if (!specObject.children) return <Component {...specObject.props} showDefaultTag={showDefaultTag} />;
-    const childElements = renderUiElements(components, specObject.children, {showDefaultTag});
+    if (!specObject.props && !specObject.children) return <Component />;
+    if (!specObject.children) return <Component {...specObject.props} />;
+    const childElements = renderUiElements(components, specObject.children);
 
     return (
-      <Component
-        {...specObject.props}
-        showDefaultTag={showDefaultTag}>{childElements}
+      <Component {...specObject.props}>
+        {childElements}
       </Component>
     );
   };
