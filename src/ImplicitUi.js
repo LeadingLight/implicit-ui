@@ -124,25 +124,35 @@ function scanPropsForComponentsAndReplace(components, propObjects) {
 
     if (!component) return;
 
-    component = createPropsWrapper({components, Component: component, specObject: propObject});
+    component = createPropsWrapper(components, component, propObject);
     componentProps[key] = component;
   });
 
   return componentProps;
 }
 
-function createPropsWrapper({components, Component, specObject}) {
+function createPropsWrapper(components, Component, specObject) {
   return function PropertyWrapper() {
-    if (!specObject.props && !specObject.children) return <Component />;
-    if (!specObject.children) return <Component {...specObject.props} />;
-    const childElements = renderUiElements(components, specObject.children);
+    if (!specObject.t9nContext) return renderPropComponent(components, Component, specObject);
 
     return (
-      <Component {...specObject.props}>
-        {childElements}
-      </Component>
+      <T9nContext contextName={specObject.t9nContext}>
+        {renderPropComponent(components, Component, specObject)}
+      </T9nContext>
     );
   };
+}
+
+function renderPropComponent(components, Component, specObject) {
+  if (!specObject.props && !specObject.children) return <Component />;
+  if (!specObject.children) return <Component {...specObject.props} />;
+  const childElements = renderUiElements(components, specObject.children);
+
+  return (
+    <Component {...specObject.props}>
+      {childElements}
+    </Component>
+  );
 }
 
 function getElementChildren(element) {
