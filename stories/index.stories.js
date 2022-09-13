@@ -75,4 +75,23 @@ storiesOf('Basic Examples', module)
           }
         ]} />
     </StorybookWrapper>
+  ))
+  .add('render a prop directly', () => (
+    <StorybookWrapper>
+      <ImplicitUi
+        components={compDictionary}
+        ui={[
+          {
+            name: 'Routes',
+            children: [{
+              name: 'Route',
+              props: {element: {name: 'Content', render: true}, path: '/somePath'}
+            },
+            {
+              name: 'Route',
+              props: {element: {name: 'Content', render: true}, path: '/someOtherPath'}
+            }]
+          }
+        ]} />
+    </StorybookWrapper>
   ));

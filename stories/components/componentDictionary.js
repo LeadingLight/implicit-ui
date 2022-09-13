@@ -27,3 +27,20 @@ export function PropsContainer({Comp1, Comp2}) {
     </div>
   );
 }
+
+export function Routes({children}) {
+  return <div>{children}</div>;
+}
+
+export function Route({path, element}) {
+  return (
+    <div>
+      <h3>{path}</h3>
+      {element}
+    </div>
+  );
+}
+
+export function Content() {
+  return <div>Content</div>;
+}
