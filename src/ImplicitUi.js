@@ -68,7 +68,15 @@ function renderElement({index, components, UiElement, props, children}) {
 
 function getElement(components, element) {
   if (typeof element === 'string') return components[element];
-  if (typeof element === 'object') return components[element.name];
+  if (typeof element === 'object') {
+    if (element.render && components[element.name]) {
+      const Comp = components[element.name];
+
+      return React.createElement(Comp);
+    }
+
+    return components[element.name];
+  }
 
   return undefined;
 }
@@ -124,7 +132,10 @@ function scanPropsForComponentsAndReplace(components, propObjects) {
 
     if (!component) return;
 
-    component = createPropsWrapper(components, component, propObject);
+    if (propObject.render !== true) {
+      component = createPropsWrapper(components, component, propObject);
+    }
+
     componentProps[key] = component;
   });
 
