@@ -72,7 +72,7 @@ function getElement(components, element) {
     if (element.render && components[element.name]) {
       const Comp = components[element.name];
 
-      return React.createElement(Comp);
+      return React.createElement(Comp, element.props, renderUiElements(components, element.children));
     }
 
     return components[element.name];
