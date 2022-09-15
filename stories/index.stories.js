@@ -5,6 +5,7 @@ import ImplicitUi from '../src/ImplicitUi';
 
 import StorybookWrapper from './components/StorrybookWrapper';
 import * as compDictionary from './components/componentDictionary';
+import { directRenderExampleUi, dummyStackedUi } from './dummyValues';
 
 storiesOf('Basic Examples', module)
   .add('use configuration array', () => (
@@ -76,22 +77,17 @@ storiesOf('Basic Examples', module)
         ]} />
     </StorybookWrapper>
   ))
-  .add('render a prop directly', () => (
+  .add('render a component directly', () => (
     <StorybookWrapper>
       <ImplicitUi
         components={compDictionary}
-        ui={[
-          {
-            name: 'Routes',
-            children: [{
-              name: 'Route',
-              props: {element: {name: 'Content', render: true}, path: '/somePath'}
-            },
-            {
-              name: 'Route',
-              props: {element: {name: 'Content', render: true}, path: '/someOtherPath'}
-            }]
-          }
-        ]} />
+        ui={[directRenderExampleUi]} />
+    </StorybookWrapper>
+  ))
+  .add('render stacked components with props directly', () => (
+    <StorybookWrapper>
+      <ImplicitUi
+        components={compDictionary}
+        ui={[dummyStackedUi]} />
     </StorybookWrapper>
   ));
